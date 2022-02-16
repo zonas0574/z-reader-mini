@@ -2,7 +2,7 @@ out
 node_modules
 .vscode-test/
 *.vsix
-
+book/*
 package-lock.json
 yarn.lock
 
