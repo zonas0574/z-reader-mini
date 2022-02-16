@@ -1,6 +1,5 @@
 .vscode/**
-out/**
-src/**
+1src/**
 .gitignore
 .eslintrc.js
 **/*.map
