@@ -10,33 +10,34 @@ import { store } from '../utils/store';
 class ReaderDriver {
   public getLocalBooks(path: string): Promise<string[]> {
     return new Promise(function (resolve, reject) {
-      if (!Fs.lstatSync(path).isDirectory()) {
-        Fs.mkdirSync(path)
-      }
-
-      Fs.readdir(path, (err: any, files: string[]) => {
-        if (err || !files) {
-          reject(err);
+      Fs.stat(path, (err, stats) => {
+        if(!stats){
+          Fs.mkdirSync(path)
         }
-        const result = files
-          .filter((file: string) => {
-            return Path.extname(file) === '.epub';
-          })
-          .sort((a, b) => {
-            const am = a.match(/[\u4e00-\u9fa5]/g);
-            const bm = b.match(/[\u4e00-\u9fa5]/g);
-            const as = am ? am.join('') : a;
-            const bs = bm ? bm.join('') : b;
-            const _an = a.match(/\d+/g);
-            const _bn = b.match(/\d+/g);
-            const an = _an ? Number(_an.join('')) : 0;
-            const bn = _bn ? Number(_bn.join('')) : 0;
-            if (as === bs) {
-              return an > bn ? 1 : -1;
-            }
-            return as > bs ? -1 : 1;
-          });
-        resolve(result);
+        Fs.readdir(path, (err: any, files: string[]) => {
+          if (err || !files) {
+            reject(err);
+          }
+          const result = files
+            .filter((file: string) => {
+              return Path.extname(file) === '.epub';
+            })
+            .sort((a, b) => {
+              const am = a.match(/[\u4e00-\u9fa5]/g);
+              const bm = b.match(/[\u4e00-\u9fa5]/g);
+              const as = am ? am.join('') : a;
+              const bs = bm ? bm.join('') : b;
+              const _an = a.match(/\d+/g);
+              const _bn = b.match(/\d+/g);
+              const an = _an ? Number(_an.join('')) : 0;
+              const bn = _bn ? Number(_bn.join('')) : 0;
+              if (as === bs) {
+                return an > bn ? 1 : -1;
+              }
+              return as > bs ? -1 : 1;
+            });
+          resolve(result);
+        });
       });
     });
   }
