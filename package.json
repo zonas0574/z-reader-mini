@@ -1,0 +1,144 @@
+{
+  "name": "z-reader-mini",
+  "displayName": "z-reader-mini",
+  "description": "基于 [z-reader](https://github.com/aooiuu/z-reader) 缩减版，只支持本地epub",
+  "keywords": [
+    "epub",
+    "z-reader",
+    "阅读",
+    "小说"
+  ],
+  "publisher": "zonas",
+  "license": "MIT",
+  "version": "1.0.0",
+  "icon": "static/images/icon-green.png",
+  "qna": "https://github.com/aooiuu/z-reader.git/issues",
+  "bugs": {
+    "url": "https://github.com/aooiuu/z-reader.git/issues",
+    "email": "aooiu@qq.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zonas0574/z-reader-mini.git"
+  },
+  "engines": {
+    "vscode": "^1.39.0"
+  },
+  "categories": [
+    "Other",
+    "Extension Packs"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "z-reader-mini.command.refresh",
+        "title": "重新加载目录",
+        "category": "z-reader-mini"
+      },
+      {
+        "command": "z-reader-mini.command.openLocalDirectory",
+        "title": "打开本地目录",
+        "category": "z-reader-mini"
+      },
+      {
+        "command": "z-reader-mini.command.goChapter",
+        "title": "定位上次章节",
+        "icon": "static/images/position.svg",
+        "category": "z-reader-mini"
+      },
+      {
+        "command": "z-reader-mini.command.editHtml",
+        "title": "html编辑",
+        "category": "z-reader-mini"
+      },
+      {
+        "command": "z-reader-mini.command.editStyle",
+        "title": "css编辑",
+        "category": "z-reader-mini"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "treeView",
+          "title": "小说",
+          "icon": "static/images/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "treeView": [
+        {
+          "id": "z-reader-mini-menu",
+          "name": "目录"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "z-reader-mini.command.openLocalDirectory",
+          "when": "view == z-reader-mini-menu",
+          "group": "custom@1"
+        },{
+          "command": "z-reader-mini.command.refresh",
+          "when": "view == z-reader-mini-menu",
+          "group": "custom@2"
+        },{
+          "command": "z-reader-mini.command.editHtml",
+          "when": "view == z-reader-mini-menu",
+          "group": "custom@3"
+        },{
+          "command": "z-reader-mini.command.editStyle",
+          "when": "view == z-reader-mini-menu",
+          "group": "custom@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "z-reader-mini.command.goChapter",
+          "when": "view == z-reader-mini-menu",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "scripts": {
+    "build": "vsce package",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/got": "^9.6.9",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.12.21",
+    "@types/vscode": "^1.39.0",
+    "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "@typescript-eslint/parser": "^3.0.2",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "glob": "^7.1.4",
+    "mocha": "^6.1.4",
+    "tslint": "^5.12.1",
+    "typescript": "^4.3.5",
+    "vscode-test": "^1.2.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "epub": "^1.2.0",
+    "got": "^9.6.0",
+    "hpagent": "^0.1.2",
+    "iconv-lite": "^0.5.0",
+    "open": "^7.0.0",
+    "tough-cookie": "^4.0.0",
+    "tslib": "^2.3.0"
+  }
+}

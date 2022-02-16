@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title></title>
+    <link rel="stylesheet" href="@./style.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <ul id="contextmenu" style="display: none">
+        <li><a data-cmd-param='{"cmd": "nextChapter"}'>下一章</a></li>
+        <li><a data-cmd-param='{"cmd": "lastChapter"}'>上一章</a></li>
+      </ul>
+      <div class="content" style="font-size: 16px">{{ content }}</div>
+    </div>
+    <script>
+      (function () {
+        var VscodeHelper = function () {
+          this.vscode = typeof acquireVsCodeApi === 'function' ? acquireVsCodeApi() : {};
+        };
+        VscodeHelper.prototype.on = function (cmd) {
+          if (typeof this.vscode.postMessage === 'undefined') {
+            return;
+          }
+          this.vscode.postMessage({
+            command: cmd
+          });
+        };
+        var mVscodeHelper = new VscodeHelper();
+        mVscodeHelper.on('onload');
+
+        var appDiv = document.querySelector('#app');
+        document.addEventListener('keyup', function (event) {
+          // 上一页
+          if(event.keyCode == 74){
+            if(appDiv.scrollTop == 0){
+              mVscodeHelper.on('lastChapter');
+            } else {
+              appDiv.scrollTop-=appDiv.clientHeight;
+            }
+          } else if(event.keyCode==75){
+            if(appDiv.scrollTop + appDiv.clientHeight == appDiv.scrollHeight){
+              mVscodeHelper.on('nextChapter');
+            } else {
+              appDiv.scrollTop += appDiv.clientHeight;
+            }
+          }
+        });
+
+        var contentDiv = document.querySelector('.content');
+        if (contentDiv) {
+          // 鼠标滚轮事件
+          var contentDivOnWheel = function (e) {
+            // 字体放大缩小
+            if (e.ctrlKey || e.altKey) {
+              e.preventDefault();
+              if (e.deltaY < 0) {
+                contentDiv.style.fontSize = Number(contentDiv.style.fontSize.replace('px', '')) + 1 + 'px';
+              } else {
+                contentDiv.style.fontSize = Number(contentDiv.style.fontSize.replace('px', '')) - 1 + 'px';
+              }
+            }
+          };
+          contentDiv.addEventListener('onwheel' in document ? 'wheel' : 'mousewheel', contentDivOnWheel);
+        }
+      })();
+    </script>
+  </body>
+</html>
