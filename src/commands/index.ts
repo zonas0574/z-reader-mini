@@ -95,17 +95,28 @@ export const nextChapter = function () {
 };
 // 跳到章节
 export const goChapter = function (treeNode:TreeNode) {
-  let path;
   if(treeNode.isDirectory){
-    path = treeNode.path;
+    const path = treeNode.path;
+    explorerNodeManager.getChapter(treeNode).then((treeNodes: TreeNode[]) => {
+      treeNode.children=treeNodes
+      explorerNodeManager.setTreeNode([treeNode])
+    })
+    if(!config.get(path, 'path')){
+      showNotification('本小说没有保存进度~', 1000);
+    }else{
+      const goTreeNode = new TreeNode(
+        Object.assign({}, treeNode, {
+          name: config.get(path, 'name'),
+          isDirectory: false,
+          path: config.get(path, 'path'),
+          children: [],
+          type: treeNode.type
+        })
+      )
+      openReaderWebView(goTreeNode);
+    }
   }else{
-    path = JSON.parse(treeNode.path).path;
+    showNotification('请选择小说目录进行进度跳转~', 2000);
   }
-  if(!config.get(path, 'path')){
-    showNotification('本小说没有保存进度~', 1000);
-  }else{
-    treeNode.path = config.get(path, 'path');
-    treeNode.name = config.get(path, 'name');
-    openReaderWebView(treeNode);
-  }
+
 };

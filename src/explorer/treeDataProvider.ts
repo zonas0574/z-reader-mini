@@ -34,9 +34,6 @@ class TreeDataProvider implements vscode.TreeDataProvider<TreeNode>, vscode.Disp
     if (!element) {
       return explorerNodeManager.getChildren();
     }
-    if(!element.name.endsWith(element.type)){
-      element.path = JSON.parse(element.path).path
-    }
     return await explorerNodeManager.getChapter(element);
   }
 }

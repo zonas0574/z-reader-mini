@@ -10,7 +10,7 @@
   ],
   "publisher": "zonas",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "icon": "static/images/icon-green.png",
   "qna": "https://github.com/aooiuu/z-reader.git/issues",
   "bugs": {
@@ -30,8 +30,7 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
+    "commands": [{
         "command": "z-reader-mini.command.refresh",
         "title": "重新加载目录",
         "category": "z-reader-mini"
@@ -59,25 +58,20 @@
       }
     ],
     "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "treeView",
-          "title": "小说",
-          "icon": "static/images/icon.svg"
-        }
-      ]
+      "activitybar": [{
+        "id": "treeView",
+        "title": "小说",
+        "icon": "static/images/icon.svg"
+      }]
     },
     "views": {
-      "treeView": [
-        {
-          "id": "z-reader-mini-menu",
-          "name": "目录"
-        }
-      ]
+      "treeView": [{
+        "id": "z-reader-mini-menu",
+        "name": "目录"
+      }]
     },
     "menus": {
-      "view/title": [
-        {
+      "view/title": [{
           "command": "z-reader-mini.command.openLocalDirectory",
           "when": "view == z-reader-mini-menu",
           "group": "custom@1"
@@ -98,13 +92,11 @@
           "group": "custom@4"
         }
       ],
-      "view/item/context": [
-        {
-          "command": "z-reader-mini.command.goChapter",
-          "when": "view == z-reader-mini-menu",
-          "group": "inline"
-        }
-      ]
+      "view/item/context": [{
+        "command": "z-reader-mini.command.goChapter",
+        "when": "view == z-reader-mini-menu",
+        "group": "inline"
+      }]
     }
   },
   "activationEvents": [
